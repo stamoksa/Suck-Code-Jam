@@ -4,34 +4,28 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //Publics
-        //floats
-        public float Speed;
-        public float Jump;
-
-        //LayerMasks
-        public LayerMask layermask;
 
     //Privates
     Rigidbody2D rb;
     Vector2 movement;
+    Variables vars;
     bool Grounded;
+
+    //Publics
 
     // Start is called before the first frame update
     void Start()
     {
         //Decleration
         rb = GetComponent<Rigidbody2D>();
+        vars = FindObjectOfType<Variables>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Movement();
-
-        
     }
 
     void Movement()
@@ -42,12 +36,12 @@ public class Player : MonoBehaviour
         }
 
         float movex = Input.GetAxis("Horizontal");
-        movement = new Vector2(movex * Speed, 0);
+        movement = new Vector2(movex * vars.Speed , 0);
 
-        Grounded = Physics2D.OverlapBox(transform.position, Vector2.one, 0, layermask);
+        Grounded = Physics2D.OverlapBox(transform.position, Vector2.one, 0, vars.GroundLayermask);
         if (Input.GetKeyDown(KeyCode.Space) && Grounded)
         {
-            movement = new Vector2(0,Jump );
+            movement = new Vector2(0 , vars.Jump);
         }
 
         rb.position = (rb.position + movement * Time.deltaTime);
